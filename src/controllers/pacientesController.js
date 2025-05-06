@@ -2,10 +2,17 @@ const pacienteModel = require("../models/pacientesModel");
 
 const getAllPacientes = async (req, res) => {
     try {
-        const pacientes = await pacienteModel.getPacientes();
-        res.json(pacientes);
+        const { idade } = req.query; 
+        let pacientes;
+        if (idade) {
+            pacientes = await pacienteModel.getPacientesByAge(idade);
+        } else {
+            pacientes = await pacienteModel.getPacientes();
+        }
+        res.status(200).json(pacientes);
     } catch (error) {
-        res.status(404).json({ message: "Erro ao buscar pacientes." });
+        console.error("Erro ao buscar pacientes:", error);
+        res.status(500).json({ message: "Erro ao buscar pacientes." });
     }
 };
 

@@ -1,17 +1,11 @@
 require("dotenv").config();
-  
-  const apiKeyMiddleware = (req, res, next) => {
-      const clientKey = req.headers['x-api-key'];
-      const serverKey = process.env.API_KEY;
-  
-      if(!clientKey){
-          return res.status(401).json({error: 'Chave da API não fornecida!'})
-      } 
-      if(clientKey !== serverKey){
-          return res.status(403).json({error: 'Chave da API incorreta! Sem autorização'})
-      }
-  
-      next(); 
-  };
-  
-  module.exports =  apiKeyMiddleware;
+
+const apiKeyMiddleware = (req, res, next) => {
+    const apiKey = req.header("x-api-key");
+    if (!apiKey || apiKey !== process.env.API_KEY) {
+        return res.status(403).json({ error: "Chave da API não fornecida ou inválida!" });
+    }
+    next();
+};
+
+module.exports = apiKeyMiddleware;

@@ -1,8 +1,15 @@
 const pool = require("../config/database");
 
 const getPacientes = async () => {
-    const result = await pool.query("SELECT * FROM pacientes");
-    return result.rows;
+    try {
+        console.log('Tentando buscar pacientes...');
+        const result = await pool.query('SELECT * FROM pacientes');
+        console.log('Pacientes encontrados:', result);
+        return result.rows;
+    } catch (error) {
+        console.error('Erro ao buscar pacientes:', error.message);
+        throw error;
+    }
 };
 
 const getPacienteById = async (id) => {
@@ -36,5 +43,10 @@ const deletePaciente = async (id) => {
     return { message: "Paciente deletado com sucesso." };
 };
 
-module.exports = { getPacientes, getPacienteById, createPaciente, updatePaciente, deletePaciente };
+const getPacientesByAge = async (idade) => {
+    const result = await pool.query("SELECT * FROM pacientes WHERE idade = $1", [idade]);
+    return result.rows;
+};
+
+module.exports = { getPacientes, getPacienteById, createPaciente, updatePaciente, deletePaciente, getPacienteById, getPacientesByAge };
 
