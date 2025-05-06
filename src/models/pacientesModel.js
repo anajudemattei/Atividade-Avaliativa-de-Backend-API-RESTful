@@ -10,10 +10,10 @@ const getPacienteById = async (id) => {
     return result.rows[0];
 };
 
-const createPaciente = async (name, email, idade) => {
+const createPaciente = async (name, email, idade, photo) => {
     const result = await pool.query(
-        "INSERT INTO pacientes (name, email, idade) VALUES ($1, $2, $3) RETURNING *", 
-        [name, email, idade]
+        "INSERT INTO pacientes (name, email, idade, photo) VALUES ($1, $2, $3, $4) RETURNING *",
+        [name, email, idade, photo]
     );
     return result.rows[0];
 };

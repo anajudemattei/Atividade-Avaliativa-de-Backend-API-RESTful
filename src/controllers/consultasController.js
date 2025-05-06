@@ -24,7 +24,8 @@ const getConsulta = async (req, res) => {
 const createConsulta = async (req, res) => {
     try {
         const { name, paciente, data, hora } = req.body;
-        const newConsulta = await consultaModel.createConsulta(name, paciente, data, hora);
+        const photo = req.file ? req.file.filename : null;
+        const newConsulta = await consultaModel.createConsulta(name, paciente, data, hora, photo);
         res.status(201).json(newConsulta);
     } catch (error) {
 	 console.log(error);

@@ -24,11 +24,12 @@ const getPaciente = async (req, res) => {
 const createPaciente = async (req, res) => {
     try {
         const { name, email, idade } = req.body;
-        const newPaciente = await pacienteModel.createPaciente(name, email, idade);
+        const photo = req.file ? req.file.filename : null; // Nome do arquivo salvo
+        const newPaciente = await pacienteModel.createPaciente(name, email, idade, photo);
         res.status(201).json(newPaciente);
     } catch (error) {
-	 console.log(error);
-        if (error.code === "23505") { // Código de erro do PostgreSQL para chave única violada
+        console.error("Erro ao criar paciente:", error);
+        if (error.code === "23505") { 
             return res.status(400).json({ message: "Item já cadastrado." });
         }
         res.status(500).json({ message: "Erro ao criar paciente." });

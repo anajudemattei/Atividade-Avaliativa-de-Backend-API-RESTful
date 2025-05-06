@@ -43,3 +43,6 @@ INSERT INTO consultas (name, paciente, data, hora) VALUES
 ('Cardiologia', 'Fernanda', '2025/05/21', '14:30'),
 ('Ortopedia', 'Clara', '2025/09/21', '15:00');
 
+ALTER TABLE pacientes ADD COLUMN photo TEXT;
+
+ALTER TABLE consultas ADD COLUMN photo TEXT;
